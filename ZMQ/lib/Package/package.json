@@ -1,0 +1,9 @@
+{
+  "name": "org.tbre.xif",
+  "version": "0.0.1",
+  "displayName": "XIF Library",
+  "description": "XIF Library",
+  "unity": "6000.0",
+  "keywords": [],
+  "hideInEditor": false
+}
