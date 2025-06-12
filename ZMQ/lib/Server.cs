@@ -65,20 +65,30 @@ namespace XIF
         [UnmanagedCallersOnly(EntryPoint = "xifs_transmit_image")]
         public static unsafe void TransmitImage(Image image)
         {
-            if (image.Data == IntPtr.Zero)
+            if ((IntPtr)image.Data == IntPtr.Zero)
             {
                 return;
             }
 
-            imageShm!.WriteBuffer((byte*)image.Data, (int)image.Width *  (int)image.Height * (int)image.Channels);
+            try
+            {
+                imageShm!.WriteBuffer((byte*)image.Data, (int)image.Width * (int)image.Height * (int)image.Channels);
+                image.Data = 0;
 
-            serverPublisher!.Transmit("/server/image", image);
+                serverPublisher!.Transmit("/server/image", image);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing image to shared memory: {ex.Message}");
+                return;
+            }
+            
         }
 
         [UnmanagedCallersOnly(EntryPoint = "xifs_transmit_pointcloud")]
         public static unsafe void TransmitPointcloud(Pointcloud pointcloud)
         {
-            if (pointcloud.Points == IntPtr.Zero)
+            if ((IntPtr)pointcloud.Points == IntPtr.Zero)
             {
                 return;
             }
@@ -111,12 +121,12 @@ namespace XIF
             int count = (int)referenceFixed.NumObjects;
             ReferenceObject[] objects = new ReferenceObject[count];
 
-            if (referenceFixed.Objects != IntPtr.Zero && count > 0)
+            if ((IntPtr)referenceFixed.Objects != IntPtr.Zero && count > 0)
             {
                 int size = Marshal.SizeOf<ReferenceObject>();
                 for (int i = 0; i < count; i++)
                 {
-                    IntPtr ptr = IntPtr.Add(referenceFixed.Objects, i * size);
+                    IntPtr ptr = IntPtr.Add((IntPtr)referenceFixed.Objects, i * size);
                     objects[i] = Marshal.PtrToStructure<ReferenceObject>(ptr)!;
                 }
             }

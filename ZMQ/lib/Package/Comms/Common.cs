@@ -68,7 +68,7 @@ namespace XIF.Comms.Common
         public UInt64 Width { get; set; }
         public UInt64 Height { get; set; }
         public UInt64 Channels { get; set; } // 3 for RGB, 4 for RGBA
-        public IntPtr Data { get; set; } // pointer to the image data buffer
+        public UInt64 Data { get; set; } // pointer to the image data buffer
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -76,7 +76,7 @@ namespace XIF.Comms.Common
     {
         public UInt64 TimeMs { get; set; }
         public UInt64 NumPoints { get; set; }
-        public IntPtr Points { get; set; } // pointer to the point cloud data buffer
+        public UInt64 Points { get; set; } // pointer to the point cloud data buffer
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -157,7 +157,7 @@ namespace XIF.Comms.Common
     {
         public UInt64 TimeMs { get; set; }
         public UInt64 NumObjects { get; set; }
-        public IntPtr Objects { get; set; }
+        public UInt64 Objects { get; set; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

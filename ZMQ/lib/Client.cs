@@ -101,15 +101,17 @@ namespace XIF
                 int size = (int)(image.Width * image.Height * image.Channels);
                 byte* imageData = imageShm.GetSharedMemoryPointer(size);
 
-                image.Data = (IntPtr)imageData;
+                image.Data = (UInt64)imageData;
 
                 IntPtr imagePtr = Marshal.AllocHGlobal(Marshal.SizeOf(image));
                 Marshal.StructureToPtr(image, imagePtr, false);
-                
+
                 if (imageCallback != null)
                 {
                     imageCallback(imagePtr);
                 }
+                
+                imageShm.ReleaseSharedMemoryPointer();
             }
         }
 
