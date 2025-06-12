@@ -34,26 +34,30 @@ extern "C" {
 ** MARK: TYPEDEFS
 ***************************************************************/
 
-typedef struct
-{
-    float x;           /* x coordinate */
-    float y;           /* y coordinate */
-} vector2_t;
+#ifndef TBRERT_H
 
-typedef struct
-{
-    float x;           /* x coordinate */
-    float y;           /* y coordinate */
-    float z;           /* z coordinate */
-} vector3_t;
+    typedef struct
+    {
+        float x;           /* x coordinate */
+        float y;           /* y coordinate */
+    } vector2_t;
 
-typedef struct
-{
-    float x;           /* x coordinate */
-    float y;           /* y coordinate */
-    float z;           /* z coordinate */
-    float w;           /* w coordinate */
-} vector4_t;
+    typedef struct
+    {
+        float x;           /* x coordinate */
+        float y;           /* y coordinate */
+        float z;           /* z coordinate */
+    } vector3_t;
+
+    typedef struct
+    {
+        float x;           /* x coordinate */
+        float y;           /* y coordinate */
+        float z;           /* z coordinate */
+        float w;           /* w coordinate */
+    } vector4_t;
+
+#endif /* TBRERT_H */
 
 typedef struct
 {
