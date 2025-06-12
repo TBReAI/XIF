@@ -110,8 +110,27 @@ namespace XIF
                 {
                     imageCallback(imagePtr);
                 }
-                
+
                 imageShm.ReleaseSharedMemoryPointer();
+            }
+
+            Pointcloud pointcloud = new Pointcloud();
+            if (pointcloudSubscription!.TryReceive(ref pointcloud))
+            {
+                int size = (int)((int)pointcloud.NumPoints * Marshal.SizeOf<Vector4>());
+                Vector4* pointData = (Vector4*)pointcloudShm.GetSharedMemoryPointer(size);
+
+                pointcloud.Points = (UInt64)pointData;
+
+                IntPtr pointcloudPtr = Marshal.AllocHGlobal(Marshal.SizeOf(pointcloud));
+                Marshal.StructureToPtr(pointcloud, pointcloudPtr, false);
+
+                if (pointcloudCallback != null)
+                {
+                    pointcloudCallback(pointcloudPtr);
+                }
+
+                pointcloudShm.ReleaseSharedMemoryPointer();
             }
         }
 

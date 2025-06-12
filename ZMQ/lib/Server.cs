@@ -70,18 +70,11 @@ namespace XIF
                 return;
             }
 
-            try
-            {
-                imageShm!.WriteBuffer((byte*)image.Data, (int)image.Width * (int)image.Height * (int)image.Channels);
-                image.Data = 0;
 
-                serverPublisher!.Transmit("/server/image", image);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error writing image to shared memory: {ex.Message}");
-                return;
-            }
+            imageShm!.WriteBuffer((byte*)image.Data, (int)image.Width * (int)image.Height * (int)image.Channels);
+            image.Data = 0;
+
+            serverPublisher!.Transmit("/server/image", image);
             
         }
 
@@ -93,9 +86,21 @@ namespace XIF
                 return;
             }
 
-            pointcloudShm!.WriteBuffer((byte*)pointcloud.Points, (int)pointcloud.NumPoints * Marshal.SizeOf<Vector4>());
+            try
+            {
+                pointcloudShm!.WriteBuffer((byte*)pointcloud.Points, (int)pointcloud.NumPoints * Marshal.SizeOf<Vector4>());
+                pointcloud.Points = 0;
 
-            serverPublisher!.Transmit("/server/pointcloud", pointcloud);
+                serverPublisher!.Transmit("/server/pointcloud", pointcloud);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error transmitting pointcloud: {ex.Message}");
+            }
+
+            
+            
+            
         }
 
         [UnmanagedCallersOnly(EntryPoint = "xifs_transmit_imu")]
