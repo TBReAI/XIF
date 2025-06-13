@@ -1,4 +1,4 @@
-﻿/*
+/*
 **  XIF Client.cs
 */
 
@@ -95,6 +95,20 @@ namespace XIF
                 }
             }
 
+            Imu imu = new Imu();
+            if (imuSubscription!.TryReceive(ref imu))
+            {
+                IntPtr imuPtr = Marshal.AllocHGlobal(Marshal.SizeOf(imu));
+                Marshal.StructureToPtr(imu, imuPtr, false);
+
+                if (imuCallback != null)
+                {
+                    imuCallback(imuPtr);
+                }
+
+                Marshal.FreeHGlobal(imuPtr);
+            }
+
             Image image = new Image();
             if (imageSubscription!.TryReceive(ref image))
             {
@@ -110,6 +124,8 @@ namespace XIF
                 {
                     imageCallback(imagePtr);
                 }
+
+                Marshal.FreeHGlobal(imagePtr);
 
                 imageShm.ReleaseSharedMemoryPointer();
             }
@@ -129,6 +145,8 @@ namespace XIF
                 {
                     pointcloudCallback(pointcloudPtr);
                 }
+
+                Marshal.FreeHGlobal(pointcloudPtr);
 
                 pointcloudShm.ReleaseSharedMemoryPointer();
             }
