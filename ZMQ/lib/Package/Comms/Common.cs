@@ -34,25 +34,25 @@ namespace XIF.Comms.Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Vector2
     {
-        public float x;
-        public float y;
+        public float x { get; set; }
+        public float y { get; set; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Vector3
     {
-        public float x;
-        public float y;
-        public float z;
+        public float x { get; set; }
+        public float y { get; set; }
+        public float z { get; set; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Vector4
     {
-        public float x;
-        public float y;
-        public float z;
-        public float w;
+        public float x { get; set; }
+        public float y { get; set; }
+        public float z { get; set; }
+        public float w { get; set; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
