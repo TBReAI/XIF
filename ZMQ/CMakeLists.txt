@@ -33,7 +33,7 @@ else()
     )
 endif()
 
-add_custom_target(cs ALL
+add_custom_target(xif-zmq ALL
     DEPENDS ${DOTNET_OUTPUT_DLL}
 )
 
@@ -45,6 +45,6 @@ set(XIF_LIBS
 )
 
 set(XIF_DEPENDS
-    cs
+    xif-zmq
     CACHE INTERNAL "XIF Dependencies"
 )
